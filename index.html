@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eaf2fb">
+  <meta name="description" content="Um cantinho feito com carinho.">
+  <title>Uma pequena surpresa</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #eaf2fb;
+      --surface: #f8fbff;
+      --blue: #4776a8;
+      --blue-dark: #31577f;
+      --ink: #26394d;
+      --muted: #718196;
+      --line: #d5e1ee;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      background: var(--background);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.7;
+    }
+
+    .site {
+      width: min(100%, 680px);
+      min-height: min(680px, calc(100vh - 48px));
+      min-height: min(680px, calc(100svh - 48px));
+      display: flex;
+      flex-direction: column;
+      padding: clamp(24px, 6vw, 48px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: 0 18px 55px rgba(54, 91, 130, .09);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      color: var(--blue-dark);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    button, .song {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .back {
+      min-height: 44px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #eaf2fb;
+      color: var(--blue-dark);
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      align-content: center;
+      padding-block: 42px;
+    }
+
+    .screen[hidden] { display: none; }
+    .screen { min-width: 0; }
+    .home { text-align: center; }
+
+    .eyebrow {
+      margin-bottom: 12px;
+      color: var(--blue);
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1, h2 {
+      margin: 0;
+      color: var(--ink);
+      font: 400 clamp(2.6rem, 8vw, 4.3rem)/1.08 var(--serif);
+      letter-spacing: -.04em;
+    }
+
+    h2 { font-size: clamp(2.3rem, 7vw, 3.5rem); }
+
+    .intro {
+      max-width: 390px;
+      margin: 18px auto 30px;
+      color: var(--muted);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      transition: background .2s, transform .2s;
+    }
+
+    .button:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    .screen > .button { margin-top: 24px; }
+
+    .poem {
+      margin: 28px 0 0;
+      padding: 28px 18px;
+      border-radius: 14px;
+      background: #edf4fb;
+      color: var(--blue-dark);
+      font: 1.25rem/1.9 var(--serif);
+      text-align: left;
+    }
+
+    .letter {
+      max-width: 480px;
+      margin-top: 24px;
+      color: #52657b;
+    }
+
+    .letter p { margin: 0 0 16px; }
+    .signoff {
+      color: var(--blue-dark);
+      font: italic 1.2rem var(--serif);
+    }
+
+    .songs {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .song {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .song:hover { border-color: var(--blue); }
+    .song strong { display: block; font-family: var(--serif); font-size: 1.08rem; }
+    .song small { color: var(--muted); }
+    .play { color: var(--blue); font-size: 1.25rem; }
+
+    .playlist {
+      display: block;
+      width: 100%;
+      height: 352px;
+      margin-top: 24px;
+      border: 0;
+      border-radius: 12px;
+      background: #dce8f5;
+    }
+
+    .playlist-link {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--blue-dark);
+      font-size: .92rem;
+      text-underline-offset: 3px;
+    }
+
+    .final-screen {
+      text-align: center;
+    }
+
+    .final-message {
+      color: var(--blue-dark);
+      font: 400 clamp(2.8rem, 10vw, 5rem)/1.08 var(--serif);
+      letter-spacing: -.04em;
+    }
+
+    .blue-heart {
+      margin: 18px 0 0;
+      color: #2789e8;
+      font-size: clamp(4rem, 16vw, 7rem);
+      line-height: 1;
+    }
+
+    footer {
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: italic .95rem var(--serif);
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      body { place-items: stretch center; }
+      .site {
+        width: 100%;
+        min-height: calc(100vh - 24px);
+        min-height: calc(100svh - max(24px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+        padding: 18px;
+        border-radius: 16px;
+      }
+      header { padding-bottom: 16px; }
+      main { padding-block: 24px; }
+      h1, h2 { font-size: clamp(2.4rem, 11vw, 3.5rem); }
+      .screen > .button { width: 100%; }
+      .poem { padding: 22px 14px; font-size: 1.15rem; }
+      .playlist { height: 352px; }
+    }
+
+    @media (max-width: 520px) and (max-height: 720px) {
+      body { place-items: start center; }
+      .site { min-height: calc(100svh - 24px); }
+      main { align-content: start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <span class="brand">feito com carinho ♡</span>
+      <button class="back" id="back" type="button" hidden>← Voltar</button>
+    </header>
+
+    <main>
+      <section class="screen home" id="inicio" aria-labelledby="home-title">
+        <p class="eyebrow">uma pequena surpresa</p>
+        <h1 id="home-title">Oi, Anna.</h1>
+        <p class="intro">Fiz isso para você, espero que goste.</p>
+        <button class="button" type="button" data-screen="poema">Iniciar</button>
+      </section>
+
+      <section class="screen" id="poema" aria-labelledby="poem-title" hidden>
+        <p class="eyebrow">um poema</p>
+        <h2 id="poem-title">Pra você</h2>
+        <blockquote class="poem">
+         Você surgiu e me mostrou<br>
+Uma forma diferente de viver<br>
+Sem você não seria capaz<br>
+De passar uma hora a viver<br>
+Acho que não iria soreviver<br>
+<br>
+No fundo do meu coração<br>
+Há uma linda mulher<br>
+Com seu riso sem jeito<br>
+Fez eu cair em pé<br>
+<br>
+Seus cabelos ondulados como o mar<br>
+Seus olhos brilhosos como o sol<br>
+Como poderia eu notar<br>
+Que no teu sorriso mora minha paixão?<br>
+<br>
+Obrigado por me fazer dar risadas<br>
+Até mesmo com suas risadas<br>
+Com histórias engraçadas<br>
+Paixão que não tem fim<br>
+De você pra mim.<br>
+        </blockquote>
+        <button class="button" type="button" data-screen="carta">Ainda não acabou</button>
+      </section>
+
+      <section class="screen" id="carta" aria-labelledby="letter-title" hidden>
+        <p class="eyebrow">uma cartinha</p>
+        <h2 id="letter-title">Com carinho</h2>
+        <div class="letter">
+          <p>Oi, Anna :)</p>
+          <p>Não esperava que esse ano guardaria tantas coisas boas para mim, e uma dessas coisas sem dúvidas foi você. Não sou o melhor escritor, mas vou tentar expressar nessas letras, o quanto que você me dá esperanças para o futuro. Nos conhecemos em julho, não faz muito tempo, eu sei, mas foi tempo suficiente para notar, que cada dia com uma mensagem com um bom dia seu, e uma troca de ideias com você, me faz muito feliz. Pra te dizer a verdade, como você já deve saber, gostei de você logo de cara, vi que você era uma pessoa diferente, mas por pequenos traumas do passado, preferi não tomar a iniciativa naquele momento, e quase deixei você passar. Me desculpe por isso. Meu sentimento por você desde então só cresceu, minha admiração, meu amor. Logo no mês do meu aniversário, começamos a conversar com mais frequência, e com certeza foi o maior presente que eu poderia receber. Quero que saiba que mesmo com a distância, ou o tempo que fiquemos distantes, nada vai mudar o que sinto por você, absolutamente NADA. E que a gente consiga passar por essa fase, que eu possa te mostrar de várias outras formas o meu amor, e que possamos logo seguir em frente. Eu te amo demais!</p>
+          <p>Com amor, <br> 
+            Edu.</p>
+          <p class="signoff">♡</p>
+        </div>
+        <button class="button" type="button" data-screen="musicas">Um extra</button>
+      </section>
+
+      <section class="screen" id="musicas" aria-labelledby="music-title" hidden>
+        <p class="eyebrow">um extra</p>
+        <h2 id="music-title">Uma pequena playlist pra você</h2>
+        <div id="playlist-player"></div>
+        <a class="playlist-link" href="https://open.spotify.com/playlist/5PSWEtLEiYW2AcnFZHN7q7" target="_blank" rel="noopener noreferrer">Abrir playlist no Spotify</a>
+        <button class="button" type="button" data-screen="final">Mais uma coisinha</button>
+      </section>
+
+      <section class="screen final-screen" id="final" aria-labelledby="final-title" hidden>
+        <h2 class="final-message" id="final-title">Te amo, meu amor</h2>
+        <p class="blue-heart" aria-label="coração azul">💙</p>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const screens = document.querySelectorAll(".screen");
+    const backButton = document.querySelector("#back");
+    const screenHistory = ["inicio"];
+    let currentScreen = "inicio";
+
+    function showScreen(id, addToHistory = true) {
+      if (id === currentScreen) return;
+      if (addToHistory) screenHistory.push(id);
+      currentScreen = id;
+      screens.forEach((screen) => {
+        screen.hidden = screen.id !== id;
+      });
+      if (id === "musicas") {
+        const playerContainer = document.querySelector("#playlist-player");
+        if (!playerContainer.firstElementChild) {
+          const playlist = document.createElement("iframe");
+          playlist.className = "playlist";
+          playlist.title = "Playlist do Spotify";
+          playlist.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+          playlist.src = "https://open.spotify.com/embed/playlist/5PSWEtLEiYW2AcnFZHN7q7?utm_source=generator";
+          playerContainer.append(playlist);
+        }
+      }
+      backButton.hidden = id === "inicio";
+    }
+
+    document.querySelectorAll("[data-screen]").forEach((button) => {
+      button.addEventListener("click", () => showScreen(button.dataset.screen));
+    });
+
+    backButton.addEventListener("click", () => {
+      if (screenHistory.length > 1) screenHistory.pop();
+      showScreen(screenHistory[screenHistory.length - 1], false);
+    });
+  </script>
+</body>
+</html>
